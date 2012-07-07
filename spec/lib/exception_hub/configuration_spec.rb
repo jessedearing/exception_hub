@@ -40,4 +40,16 @@ describe ExceptionHub::Configuration do
     ExceptionHub.after_create_exception_callback.should include p
     ExceptionHub.after_create_exception_callback.should include p2
   end
+
+  it "should add callbacks for the before_create_exception hook" do
+    p = proc {}
+    p2 = proc {}
+    ExceptionHub.configure do |config|
+      config.before_create_exception(&p)
+      config.before_create_exception(&p2)
+    end
+
+    ExceptionHub.before_create_exception_callback.should include p
+    ExceptionHub.before_create_exception_callback.should include p2
+  end
 end
