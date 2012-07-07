@@ -1,5 +1,6 @@
 require "exception_hub/version"
+require 'exception_hub/configuration'
 
 module ExceptionHub
-  # Your code goes here...
+  extend Configuration
 end
