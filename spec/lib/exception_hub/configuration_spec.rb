@@ -9,14 +9,6 @@ describe ExceptionHub::Configuration do
     ExceptionHub.repo_name.should == 'test_repo'
   end
 
-  it "should alias organization_name to user_name" do
-    ExceptionHub.config do |config|
-      config.organization_name = 'foo'
-    end
-
-    ExceptionHub.user_name.should == 'foo'
-  end
-
   it "should add callbacks for the after_create_exception hook" do
     p = proc {}
     p2 = proc {}
