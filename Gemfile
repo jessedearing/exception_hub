@@ -10,3 +10,4 @@ group :osx do
 end
 gem 'yard'
 gem 'octokit'
+gem 'rails', '~> 3.2.6'
