@@ -9,3 +9,4 @@ group :osx do
   gem 'growl'
 end
 gem 'yard'
+gem 'octokit'
