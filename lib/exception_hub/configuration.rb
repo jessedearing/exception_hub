@@ -28,7 +28,7 @@ module ExceptionHub
 
     # Provides configuration block for ExceptionHub
     #
-    # Example:
+    # @example
     #   ExceptionHub.configure do |config|
     #     config.repo_name = 'exception_hub'
     #     # ...
