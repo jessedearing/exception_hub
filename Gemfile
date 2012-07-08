@@ -8,3 +8,4 @@ gem 'guard-rspec'
 group :osx do
   gem 'growl'
 end
+gem 'yard'
