@@ -5,10 +5,12 @@ module ExceptionHub
     attr_accessor :repo_name
 
     # @!attribute [rw]
-    # @return [String] Github username for the user account that hosts the repository
-    attr_accessor :user_name
-    alias_method :organization_name, :user_name
-    alias_method :organization_name=, :user_name=
+    # @return [String] Github username for the user account that will make the API callas
+    attr_accessor :github_user_name
+
+    # @!attribute [rw]
+    # @return [String] Name of the user or organization that hosts the repository
+    attr_accessor :repo_owner
 
     # @!attribute [rw]
     # @return [Boolean] If true, sends all exceptions to Github including duplicates.
