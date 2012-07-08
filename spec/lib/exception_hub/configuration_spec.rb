@@ -9,24 +9,12 @@ describe ExceptionHub::Configuration do
     ExceptionHub.repo_name.should == 'test_repo'
   end
 
-  describe "#user_org_name" do
-    it "should return organization_name if that is present" do
-      ExceptionHub.configure do |config|
-        config.organization_name = 'Foo Bar Inc.'
-        config.user_name = nil
-      end
-
-      ExceptionHub.user_org_name.should == 'Foo Bar Inc.'
+  it "should alias organization_name to user_name" do
+    ExceptionHub.config do |config|
+      config.organization_name = 'foo'
     end
 
-    it "should return user_name when org name is not present" do
-      ExceptionHub.configure do |config|
-        config.organization_name = nil
-        config.user_name = 'Johnny User'
-      end
-
-      ExceptionHub.user_org_name.should == 'Johnny User'
-    end
+    ExceptionHub.user_name.should == 'foo'
   end
 
   it "should add callbacks for the after_create_exception hook" do
@@ -37,8 +25,8 @@ describe ExceptionHub::Configuration do
       config.after_create_exception(&p2)
     end
 
-    ExceptionHub.after_create_exception_callback.should include p
-    ExceptionHub.after_create_exception_callback.should include p2
+    ExceptionHub.after_create_exception_callbacks.should include p
+    ExceptionHub.after_create_exception_callbacks.should include p2
   end
 
   it "should add callbacks for the before_create_exception hook" do
@@ -49,7 +37,7 @@ describe ExceptionHub::Configuration do
       config.before_create_exception(&p2)
     end
 
-    ExceptionHub.before_create_exception_callback.should include p
-    ExceptionHub.before_create_exception_callback.should include p2
+    ExceptionHub.before_create_exception_callbacks.should include p
+    ExceptionHub.before_create_exception_callbacks.should include p2
   end
 end
