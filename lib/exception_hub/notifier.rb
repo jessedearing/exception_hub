@@ -9,7 +9,6 @@ module ExceptionHub
 
     def notify!
       begin
-        return if ExceptionHub.ignored_exceptions.include?(@exception.class.name)
         issue = Issue.new
         issue.description = build_description
         issue.title = "#{@exception.class.name}: #{@exception.message}"
@@ -23,7 +22,11 @@ module ExceptionHub
 
     private
     def build_description
-      backtrace = @exception.backtrace.reduce("") {|memo, line| memo << line << "\n"}
+      backtrace = if @exception.backtrace
+                    @exception.backtrace.reduce("") {|memo, line| memo << line << "\n"}
+                  else
+                    ""
+                  end
       description = <<-DESC
 ## Exception Message
 #{@exception.message}
