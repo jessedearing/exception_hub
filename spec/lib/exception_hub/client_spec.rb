@@ -5,6 +5,7 @@ describe ExceptionHub::Client do
     before do
       ExceptionHub.github_api_token = 'abc123'
       ExceptionHub.github_user_name = 'jessedearing'
+      ExceptionHub.reload_octokit!
     end
 
     subject {ExceptionHub.current_octokit}
