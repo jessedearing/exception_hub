@@ -33,14 +33,14 @@ module ExceptionHub
 
 ## Data
 ### Backtrace
-'''
+```
 #{backtrace}
-'''
+```
 
 ### Rack Env
-'''
+```
 #{pretty_jsonify(@env)}
-'''
+```
       DESC
     end
 
