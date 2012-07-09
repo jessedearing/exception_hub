@@ -14,12 +14,17 @@ module ExceptionHub
           system('stty -echo')
           password = STDIN.gets.chomp
           system('stty echo')
+          puts "Repo name:"
+          repo_name = STDIN.gets.chomp
+          puts "Repo owner:"
+          repo_owner = STDIN.gets.chomp
+
 
           puts "Getting authorization from Github"
           auth = ExceptionHub.get_api_token(username, password)
 
           puts "Generating initializer"
-          File.write('./config/initializers/exception_hub.rb', ExceptionHub.generate_initializer(username, auth.token, auth.id))
+          File.write('./config/initializers/exception_hub.rb', ExceptionHub.generate_initializer(username, auth.token, auth.id, repo_name, repo_owner))
         end
       end
     end

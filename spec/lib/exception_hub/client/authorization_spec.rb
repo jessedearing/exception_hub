@@ -14,7 +14,7 @@ describe ExceptionHub::Client::Authorization do
     end
 
     it "should create an initializer" do
-      output = ExceptionHub.generate_initializer('jessedearing', 'asdf', 123)
+      output = ExceptionHub.generate_initializer('jessedearing', 'asdf', 123, 'exception_hub', 'jessedearing')
       output.should include "user_name = 'jessedearing'"
       output.should include "api_token = 'asdf'"
     end

@@ -10,7 +10,7 @@ module ExceptionHub
         o.create_authorization(:scopes => [:repo], :note => note, :note_url => url)
       end
 
-      def generate_initializer(user, api_token, auth_id)
+      def generate_initializer(user, api_token, auth_id, repo_name, repo_owner)
         t = ERB.new(INITIALIZER_TEMPLATE)
         t.result binding
       end
@@ -23,4 +23,6 @@ ExceptionHub.configure do |config|
   # Github Authorization #<%= auth_id %>
   config.github_user_name = '<%= user %>'
   config.github_api_token = '<%= api_token %>'
+  config.repo_name = '<%= repo_name %>'
+  config.repo_owner = '<%= repo_owner %>'
 end
