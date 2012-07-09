@@ -3,6 +3,8 @@ require 'exception_hub/configuration'
 require 'exception_hub/issue'
 require 'exception_hub/client'
 require 'exception_hub/rack'
+require 'exception_hub/notifier'
+require 'exception_hub/interceptor'
 require 'octokit'
 
 require 'exception_hub/railtie' if defined?(Rails)
