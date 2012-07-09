@@ -1,6 +1,9 @@
-require 'exception_hub'
+require 'simplecov'
 require 'bundler/setup'
+SimpleCov.start
 Bundler.require(:default, :test)
+require 'exception_hub'
+
 
 RSpec.configure do |config|
   TAGS = [:slow_test]
