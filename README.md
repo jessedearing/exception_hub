@@ -1,5 +1,7 @@
 # ExceptionHub
 
+[![Build Status](https://secure.travis-ci.org/jessedearing/exception_hub.png?branch=master)](http://travis-ci.org/jessedearing/exception_hub)
+
 ExceptionHub will take your applications exceptions as they are thrown
 and will log them in Github issues.
 
