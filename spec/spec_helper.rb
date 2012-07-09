@@ -1,6 +1,6 @@
 require 'simplecov'
 require 'bundler/setup'
-SimpleCov.start unless RUBY_ENGINE == 'rbx'
+SimpleCov.start unless defined?(RUBY_ENGINE) && RUBY_ENGINE == 'rbx'
 Bundler.require(:default, :test)
 require 'exception_hub'
 
