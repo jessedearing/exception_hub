@@ -40,7 +40,7 @@ module ExceptionHub
     attr_accessor :ignored_exceptions
 
     # @!attribute [rw]
-    # @return [Array<Symbol] Environments to send exceptions from
+    # @return [Array<Symbol>] Environments to send exceptions from
     attr_accessor :reporting_environments
 
     # @!attribute [rw]

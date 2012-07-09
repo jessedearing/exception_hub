@@ -3,6 +3,8 @@
 ExceptionHub will take your applications exceptions as they are thrown
 and will log them in Github issues.
 
+Currently this gem is in alpha and not ready for production use.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -19,7 +21,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Rails
+
+In Rails 3, you can run the rake task to enter in the information needed
+for the initializer and it will fetch the Github token for you.
+
+`rake exception_hub:generate_initializer`
+
+The initializer needs the following fields:
+* `github_api_token`
+* `github_user_name`
+* `repo_name`
+* `repo_owner`
 
 ## Contributing
 
