@@ -11,3 +11,6 @@ end
 gem 'yard'
 gem 'octokit'
 gem 'rails', '~> 3.2.6'
+group :test do
+  gem 'simplecov', :require => false
+end
