@@ -13,4 +13,8 @@ require 'exception_hub/railtie' if defined?(Rails)
 module ExceptionHub
   extend Configuration
   extend Client
+
+  def self.handle_exception(exception, env)
+    Interceptor.new(exception, env).intercept!
+  end
 end

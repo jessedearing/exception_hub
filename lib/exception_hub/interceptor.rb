@@ -24,9 +24,10 @@ module ExceptionHub
     def should_create_issue?
       return false if ExceptionHub.ignored_exceptions.include? @exception.class.name
 
-      return true if defined?(Rails) && ExceptionHub.reporting_environments.include?(Rails.env.to_sym)
+      return true if defined?(::Rails) && ExceptionHub.reporting_environments.include?(::Rails.env.to_sym)
       return true if defined?(Sinatra::Base) && ExceptionHub.reporting_environments.include?(Sinatra::Base.environment)
       return true if ENV['RACK_ENV'] && ExceptionHub.reporting_environments.include?(ENV['RACK_ENV'].to_sym)
+      #TODO Compare exception to YAML cache here
       false
     end
   end

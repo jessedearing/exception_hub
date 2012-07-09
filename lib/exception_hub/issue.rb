@@ -15,7 +15,7 @@ module ExceptionHub
 
     # Creates the current Issue in Github
     def send_to_github
-      ExceptionHub.current_octokit.create_issue(ExceptionHub.repo_name, self.title, self.description, :open_timeout => 5)
+      ExceptionHub.current_octokit.create_issue("#{ExceptionHub.repo_owner}/#{ExceptionHub.repo_name}", self.title, self.description, :open_timeout => 5)
     end
 
     def to_yaml_properties

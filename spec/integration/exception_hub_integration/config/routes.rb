@@ -1,4 +1,5 @@
 ExceptionHubIntegration::Application.routes.draw do
+  match '/errors/:action', :controller => :errors
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

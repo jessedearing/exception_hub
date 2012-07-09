@@ -44,8 +44,21 @@ module ExceptionHub
       DESC
     end
 
-    def pretty_jsonify(json)
+    def pretty_jsonify(env)
+      json = env_to_hash(env)
       JSON.pretty_generate(JSON.parse(json.to_json))
+    end
+
+    def env_to_hash(env)
+      hash = {}
+      env.keys do |key|
+        if env[key].is_a?(Hash)
+          hash[key] = env_to_hash(env[key])
+        else
+          hash[key] = env[key].to_s
+        end
+      end
+      hash
     end
   end
 end
