@@ -67,7 +67,7 @@ module ExceptionHub
       @before_create_exception_callbacks ||= []
       @ignored_exceptions ||= IGNORED_EXCEPTIONS_DEFAULT.dup
       @reporting_environments ||= [:production]
-      @logger ||= (defined?(Rails) && Rails.logger) || Logger.new(STDOUT)
+      @logger ||= defined?(Rails) && Rails.logger || Logger.new(STDOUT)
     end
 
     def after_create_exception(&block)

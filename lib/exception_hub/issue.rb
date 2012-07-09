@@ -6,12 +6,8 @@ module ExceptionHub
     attr_accessor :github_issue_id
 
     # !@attribute [rw]
-    # @return [String] Name of the exception class
-    attr_accessor :exception_class
-
-    # !@attribute [rw]
-    # @return [String] The message body of the exception
-    attr_accessor :exception_message
+    # @return [String] Title of the Github issue
+    attr_accessor :title
 
     # !@attribute [rw]
     # @return [String] Description to be displayed in the body of the Github issue
@@ -19,11 +15,11 @@ module ExceptionHub
 
     # Creates the current Issue in Github
     def send_to_github
-      #TODO Create issue in Github
+      ExceptionHub.current_octokit.create_issue(ExceptionHub.repo_name, self.title, self.description, :open_timeout => 5)
     end
 
     def to_yaml_properties
-      ['@github_issue_id', '@exception_class', '@exception_message']
+      ['@github_issue_id', '@title']
     end
   end
 end
