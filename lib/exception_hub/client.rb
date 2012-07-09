@@ -4,12 +4,12 @@ module ExceptionHub
   module Client
     include Authorization
 
-    # @returns [Octokit::Client] Returns an Octokit client singleton
+    # @return [Octokit::Client] Returns an Octokit client singleton
     def current_octokit
       @current_octokit ||= get_octokit_client
     end
 
-    # @returns [Octokit::Client] Creates new instance of the Octokit client singleton
+    # @return [Octokit::Client] Creates new instance of the Octokit client singleton
     def reload_octokit!
       @current_octokit = get_octokit_client
     end
