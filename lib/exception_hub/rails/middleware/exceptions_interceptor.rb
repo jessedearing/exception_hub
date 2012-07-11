@@ -12,8 +12,7 @@ module ExceptionHub
             ExceptionHub.handle_exception(exception, env)
             render_exception_without_exception_hub_intercept(env, exception)
           rescue Exception => ex
-            ExceptionHub.logger.error("ExceptionHub: #{ex.class.name}: #{ex.message}")
-            ExceptionHub.logger.error(ex.backtrace.reduce("") {|memo, line| memo << line << "\n"})
+            ExceptionHub.log_exception_hub_exception(ex)
           end
         end
       end
