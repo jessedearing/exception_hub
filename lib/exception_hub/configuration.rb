@@ -47,6 +47,14 @@ module ExceptionHub
     # @return [Logger] Logger to send output messages to
     attr_accessor :logger
 
+    # @!attribute [rw]
+    # @return [Array<Class>] Class(es) used for validating if exceptions should be logged
+    attr_accessor :validator
+
+    # @!attribute [rw]
+    # @return [Class] Class used to store and retreive the logged exceptions
+    attr_accessor :storage
+
     # Provides configuration block for ExceptionHub
     #
     # @example
