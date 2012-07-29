@@ -55,6 +55,10 @@ module ExceptionHub
     # @return [Class] Class used to store and retreive the logged exceptions
     attr_accessor :storage
 
+    # @!attribute [rw]
+    # @return [Pathname] The path to store exception metadata
+    attr_accessor :storage_path
+
     # Provides configuration block for ExceptionHub
     #
     # @example
@@ -76,6 +80,8 @@ module ExceptionHub
       @ignored_exceptions ||= IGNORED_EXCEPTIONS_DEFAULT.dup
       @reporting_environments ||= [:production]
       @logger ||= defined?(::Rails) && ::Rails.logger || Logger.new(STDOUT)
+      @send_all_exceptions ||= false
+      @storage_path ||= Pathname.new(File.expand_path('tmp'))
     end
 
     def after_create_exception(&block)
@@ -84,6 +90,10 @@ module ExceptionHub
 
     def before_create_exception(&block)
       @before_create_exception_callbacks << block if block
+    end
+
+    def storage_path=(value)
+      @storage_path = Pathname(value)
     end
   end
 end
