@@ -9,26 +9,27 @@ describe ExceptionHub::Storage::Json do
     ExceptionHub.storage_path = Pathname.new(File.expand_path('tmp'))
   end
 
+  let(:io) {mock("IO")}
+
   describe "save" do
     before do
-      @io = mock("IO")
-      @io.should_receive(:write).with(Pathname("/tmp/foo.json"), '{"foo":"bar"}')
+      io.should_receive(:write).with(Pathname("/tmp/foo.json"), '{"foo":"bar"}')
     end
 
-    subject {ExceptionHub::Storage::Json.new(@io).save("foo", {'foo' => 'bar'})}
+    subject {ExceptionHub::Storage::Json.new(io).save("foo", {'foo' => 'bar'})}
 
     it { should == Pathname("/tmp/foo.json") }
   end
 
   describe "load" do
+    let(:file_mock) {mock("File")}
+
     before do
-      @io = mock("IO")
-      file = mock("File")
-      file.stub(:readlines => ['{"foo":"bar","baz": "bat"}'])
-      @io.should_receive(:open).with(Pathname("/tmp/bar.json"), "r").and_yield(file)
+      file_mock.stub(:readlines => ['{"foo":"bar","baz": "bat"}'])
+      io.should_receive(:open).with(Pathname("/tmp/bar.json"), "r").and_yield(file_mock)
     end
 
-    subject {ExceptionHub::Storage::Json.new(@io).load("bar")}
+    subject {ExceptionHub::Storage::Json.new(io).load("bar")}
 
     it { should == {'foo' => 'bar', 'baz' => 'bat'} }
   end
