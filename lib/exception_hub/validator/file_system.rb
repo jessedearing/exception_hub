@@ -7,9 +7,11 @@ module ExceptionHub
 
       private
       def exception_exists?(exception, env)
+        exception = exception.gsub(/ #\<(?:.*)\>/, '')
         storage = ExceptionHub.storage
         stored = storage.load(storage.find(exception))
         if stored
+          #TODO More intelligent validation based on line number in call stacks
           true
         else
           false
