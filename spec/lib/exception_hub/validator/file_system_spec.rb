@@ -3,8 +3,8 @@ require 'spec_helper'
 describe ExceptionHub::Validator::FileSystem do
   context "create_issue?" do
     let(:storage_dbl) {double("storage") }
-    let(:exception) {"Exception asdf asdf"}
-    let(:digest) {Digest::SHA2.hexdigest(exception)}
+    let(:exception) { no_method_error_filtered}
+    let(:digest) {Digest::SHA2.hexdigest(exception.filtered_message)}
     let(:env) { Hash.new }
 
     before do
@@ -36,9 +36,8 @@ describe ExceptionHub::Validator::FileSystem do
     end
 
     describe "existing exception with specific object_id" do
-      let(:exception) {"NoMethodError: undefined method `uniq!' for #<Class:0x10197a34>"}
-      let(:filtered_exception) {"NoMethodError: undefined method `uniq!' for"}
-      let(:digest) {Digest::SHA2.hexdigest("NoMethodError: undefined method `uniq!' for")}
+      let(:filtered_exception) {"undefined method `uniq!' for"}
+      let(:digest) {Digest::SHA2.hexdigest(filtered_exception)}
 
       before do
         ExceptionHub.storage.should_receive(:load).

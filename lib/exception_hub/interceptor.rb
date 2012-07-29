@@ -2,6 +2,7 @@ module ExceptionHub
   class Interceptor
     def initialize(exception, rack_env)
       @exception = exception
+      @exception.extend FilteredException
       @env = rack_env
     end
 
