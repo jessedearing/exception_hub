@@ -18,4 +18,11 @@ describe ExceptionHub do
 
     @errors.first.should =~ /ExceptionHub: Exception: #{message}/
   end
+
+  describe "storage_path" do
+    before {ExceptionHub.storage_path = "/tmp/foo"}
+    subject {ExceptionHub.storage_path}
+
+    it { should == Pathname("/tmp/foo") }
+  end
 end

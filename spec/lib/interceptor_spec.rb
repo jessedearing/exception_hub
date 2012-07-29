@@ -3,10 +3,26 @@ require 'spec_helper'
 describe ExceptionHub::Interceptor do
   before do
     @interceptor = ExceptionHub::Interceptor.new(Exception.new("Production error!"), {})
+    ExceptionHub.validators = []
   end
 
-  describe "#should_create_issue?" do
-    subject {@interceptor.should_create_issue?}
+  describe "create_issue?" do
+    subject {@interceptor.create_issue?}
+
+    context "validator return true" do
+      let(:all_the_exceptions_validator) { Class.new {def create_issue?(exception,env); true; end}}
+      before do
+        ExceptionHub.validators = all_the_exceptions_validator
+        ENV['RACK_ENV'] = 'production'
+      end
+
+      after do
+        ExceptionHub.validators = ExceptionHub::Validator::FileSystem
+        ENV['RACK_ENV'] = nil
+      end
+
+      it {should == true}
+    end
 
     it "should not create issues if it's on the ignored_exceptions list" do
       ExceptionHub.define_defaults

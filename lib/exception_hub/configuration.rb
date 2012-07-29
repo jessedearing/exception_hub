@@ -49,7 +49,7 @@ module ExceptionHub
 
     # @!attribute [rw]
     # @return [Array<Class>] Class(es) used for validating if exceptions should be logged
-    attr_accessor :validator
+    attr_accessor :validators
 
     # @!attribute [rw]
     # @return [Class] Class used to store and retreive the logged exceptions
@@ -82,6 +82,8 @@ module ExceptionHub
       @logger ||= defined?(::Rails) && ::Rails.logger || Logger.new(STDOUT)
       @send_all_exceptions ||= false
       @storage_path ||= Pathname.new(File.expand_path('tmp'))
+      @storage ||= ExceptionHub::Storage::Json
+      @validators ||= Array(ExceptionHub::Validator::FileSystem)
     end
 
     def after_create_exception(&block)
@@ -94,6 +96,18 @@ module ExceptionHub
 
     def storage_path=(value)
       @storage_path = Pathname(value)
+    end
+
+    def storage_object
+      @storage_object ||= @storage.new
+    end
+
+    def clear_storage_object
+      @storage_object = nil
+    end
+
+    def validators=(vals)
+      @validators = Array(vals)
     end
   end
 end

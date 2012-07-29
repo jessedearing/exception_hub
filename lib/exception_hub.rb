@@ -6,6 +6,7 @@ require 'exception_hub/rack'
 require 'exception_hub/notifier'
 require 'exception_hub/interceptor'
 require 'exception_hub/storage/json'
+require 'exception_hub/validator/file_system'
 require 'octokit'
 
 require 'exception_hub/railtie' if defined?(Rails)
