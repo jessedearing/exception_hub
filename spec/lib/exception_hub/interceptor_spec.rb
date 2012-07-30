@@ -4,7 +4,10 @@ describe ExceptionHub::Interceptor do
   before do
     @interceptor = ExceptionHub::Interceptor.new(Exception.new("Production error!"), {})
     ExceptionHub.validators = []
+    ExceptionHub.handlers = [ExceptionHub::Notifier]
   end
+
+  after { ExceptionHub.handlers = [ExceptionHub::Notifier, ExceptionHub::ExceptionStorage] }
 
   describe "create_issue?" do
     subject {@interceptor.create_issue?}

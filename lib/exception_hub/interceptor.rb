@@ -8,7 +8,7 @@ module ExceptionHub
 
     def intercept!
       if create_issue?
-        ExceptionHub.exception_handlers.map(&:new).each do |handler|
+        ExceptionHub.handlers.map(&:new).each do |handler|
           ExceptionHub.before_create_exception_callbacks.each do |callback|
             callback.call(handler, @env)
           end

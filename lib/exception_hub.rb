@@ -8,6 +8,7 @@ require 'exception_hub/interceptor'
 require 'exception_hub/storage/json'
 require 'exception_hub/validator/file_system'
 require 'exception_hub/filtered_exception'
+require 'exception_hub/exception_storage'
 require 'octokit'
 
 require 'exception_hub/railtie' if defined?(Rails)
