@@ -59,6 +59,10 @@ module ExceptionHub
     # @return [Pathname] The path to store exception metadata
     attr_accessor :storage_path
 
+    # @!attribute [rw]
+    # @return [Array<Class>] Class(es) used to handle exceptions
+    attr_accessor :exception_handlers
+
     # Provides configuration block for ExceptionHub
     #
     # @example
@@ -84,6 +88,7 @@ module ExceptionHub
       @storage_path ||= Pathname.new(File.expand_path('tmp'))
       @storage ||= ExceptionHub::Storage::Json
       @validators ||= Array(ExceptionHub::Validator::FileSystem)
+      @exception_handlers ||= [ExceptionHub::Notifier]
     end
 
     def after_create_exception(&block)
@@ -108,6 +113,10 @@ module ExceptionHub
 
     def validators=(vals)
       @validators = Array(vals)
+    end
+
+    def exception_handlers=(handlers)
+      @exception_handlers = Array(handlers)
     end
   end
 end

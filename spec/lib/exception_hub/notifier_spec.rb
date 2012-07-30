@@ -10,11 +10,11 @@ describe ExceptionHub::Notifier do
     ExceptionHub.define_defaults
   end
 
-  subject {ExceptionHub::Notifier.new(Exception.new("Production error!"), {})}
+  subject {ExceptionHub::Notifier.new}
 
   it "should notify Github" do
     @issue_mock.should_receive(:send_to_github)
-    subject.notify!
+    subject.perform(Exception.new("Production error!"), {'foo' => {'bar' => 42}})
   end
 
   it "should log but swallow exceptions" do
@@ -23,7 +23,7 @@ describe ExceptionHub::Notifier do
     ExceptionHub.logger = logger_mock
     @issue_mock.stub(:send_to_github) { raise "error sending to Github" }
 
-    subject.notify!
+    subject.perform(Exception.new("Production error!"), {})
 
     ExceptionHub.logger = nil
     ExceptionHub.define_defaults

@@ -77,13 +77,14 @@ describe ExceptionHub::Interceptor do
     describe "intercept!" do
       before do
         @notifier_mock = mock(:notifier)
+        @notifier_mock.stub(:perform => @notifier_mock)
         ExceptionHub::Notifier.stub(:new => @notifier_mock)
       end
 
       subject {@interceptor}
 
       it "should notify on an exception" do
-        @notifier_mock.should_receive(:notify!)
+        @notifier_mock.should_receive(:perform)
         subject.intercept!
       end
     end
@@ -92,6 +93,7 @@ describe ExceptionHub::Interceptor do
       before do
         @notifier_mock = mock(:notifier)
         @notifier_mock.stub(:notify!)
+        @notifier_mock.stub(:perform => @notifier_mock)
         ExceptionHub::Notifier.stub(:new => @notifier_mock)
       end
 

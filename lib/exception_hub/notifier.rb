@@ -2,15 +2,17 @@ require 'json'
 
 module ExceptionHub
   class Notifier
-    def initialize(exception, env)
+    def perform(exception, env)
       @exception = exception
       @env = env
+      self.notify!
+      self
     end
 
     def notify!
       begin
         issue = Issue.new
-        issue.description = build_description
+        issue.description = build_description(@exception, @env)
         issue.title = "#{@exception.class.name}: #{@exception.message}"
 
         issue.send_to_github
@@ -20,15 +22,15 @@ module ExceptionHub
     end
 
     private
-    def build_description
-      backtrace = if @exception.backtrace
-                    @exception.backtrace.reduce("") {|memo, line| memo << line << "\n"}
+    def build_description(exception, env)
+      backtrace = if exception.backtrace
+                    exception.backtrace.reduce("") {|memo, line| memo << line << "\n"}
                   else
                     ""
                   end
-      description = <<-DESC
+<<-DESC
 ## Exception Message
-#{@exception.message}
+#{exception.message}
 
 ## Data
 ### Backtrace
@@ -38,7 +40,7 @@ module ExceptionHub
 
 ### Rack Env
 ```
-#{pretty_jsonify(@env)}
+#{pretty_jsonify(env)}
 ```
       DESC
     end
@@ -49,15 +51,15 @@ module ExceptionHub
     end
 
     def env_to_hash(env)
-      hash = {}
-      env.keys do |key|
-        if env[key].is_a?(Hash)
-          hash[key] = env_to_hash(env[key])
-        else
-          hash[key] = env[key].to_s
+      {}.tap do |hash|
+        env.keys.each do |key|
+          if env[key].is_a?(Hash)
+            hash[key] = env_to_hash(env[key])
+          else
+            hash[key] = env[key].to_s
+          end
         end
       end
-      hash
     end
   end
 end
