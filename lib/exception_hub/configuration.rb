@@ -85,7 +85,7 @@ module ExceptionHub
       @reporting_environments ||= [:production]
       @logger ||= defined?(::Rails) && ::Rails.logger || Logger.new(STDOUT)
       @send_all_exceptions ||= false
-      @storage_path ||= Pathname.new(File.expand_path('tmp'))
+      @storage_path ||= Pathname.new(File.expand_path('tmp/exception_hub'))
       @storage ||= ExceptionHub::Storage::Json
       @validators ||= Array(ExceptionHub::Validator::FileSystem)
       @handlers ||= [ExceptionHub::Notifier, ExceptionHub::ExceptionStorage]

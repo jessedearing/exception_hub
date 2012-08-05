@@ -8,12 +8,12 @@ module ExceptionHub
 
         private
         def render_exception_with_exception_hub_intercept(env, exception)
-          begin
-            ExceptionHub.handle_exception(exception, env)
-            render_exception_without_exception_hub_intercept(env, exception)
-          rescue Exception => ex
-            ExceptionHub.log_exception_hub_exception(ex)
+          controller = env['action_controller.instance']
+          ExceptionHub.handle_exception(exception, env)
+          if defined?(controller.rescue_action_in_public_without_exception_hub)
+            controller.rescue_action_in_public_without_exception_hub(exception)
           end
+          render_exception_without_exception_hub_intercept(env, exception)
         end
       end
     end

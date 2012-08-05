@@ -14,6 +14,7 @@ module ExceptionHub
         rescue Exception => ex
           ExceptionHub.log_exception_hub_exception(ex)
         end
+        rescue_action_in_public_without_exception_hub(exception)
       end
     end
   end

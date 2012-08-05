@@ -3,6 +3,8 @@ require 'spec_helper'
 describe ExceptionHub::Storage::Json do
   before do
     ExceptionHub.storage_path = "/tmp"
+    io.stub(:exists? => true)
+    dir.stub(:exists? => true)
   end
 
   after do
@@ -10,13 +12,16 @@ describe ExceptionHub::Storage::Json do
   end
 
   let(:io) {mock("IO")}
+  let(:dir) {mock('Dir')}
 
   describe "save" do
     before do
       io.should_receive(:write).with(Pathname("/tmp/foo.json"), '{"foo":"bar"}')
+      dir.stub(:exists? => false)
+      dir.should_receive(:mkdir).with(ExceptionHub.storage_path)
     end
 
-    subject {ExceptionHub::Storage::Json.new(io).save("foo", {'foo' => 'bar'})}
+    subject {ExceptionHub::Storage::Json.new(io, dir).save("foo", {'foo' => 'bar'})}
 
     it { should == Pathname("/tmp/foo.json") }
   end
@@ -29,7 +34,7 @@ describe ExceptionHub::Storage::Json do
       io.should_receive(:open).with(Pathname("/tmp/bar.json"), "r").and_yield(file_mock)
     end
 
-    subject {ExceptionHub::Storage::Json.new(io).load("bar")}
+    subject {ExceptionHub::Storage::Json.new(io, dir).load("bar")}
 
     it { should == {'foo' => 'bar', 'baz' => 'bat'} }
   end

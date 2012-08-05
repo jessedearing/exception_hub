@@ -27,11 +27,10 @@ module ExceptionHub
       return false if ExceptionHub.ignored_exceptions.include? @exception.class.name
       return false unless included_rails_environment? || included_sinatra_environment? || included_rack_environment?
 
-      ExceptionHub.validators.each do |validator|
+      true && ExceptionHub.validators.map do |validator|
         validator = validator.new if validator.is_a? Class
-        return true if validator.create_issue?(@exception, @env)
-      end
-      true
+        validator.create_issue?(@exception, @env)
+      end.reduce(true) {|memo, valid| memo &&= valid}
     end
 
     private

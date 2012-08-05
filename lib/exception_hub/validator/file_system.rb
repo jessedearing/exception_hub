@@ -7,7 +7,7 @@ module ExceptionHub
 
       private
       def exception_exists?(exception, env)
-        storage = ExceptionHub.storage
+        storage = ExceptionHub.storage.new
         stored = storage.load(storage.find(exception.filtered_message))
         if stored
           #TODO More intelligent validation based on line number in callstack

@@ -18,7 +18,7 @@ module ExceptionHub
       end
 
       if env['rack.exception']
-        env['exception_hub.issue_id'] = handle_exception(ex, env)
+        env['exception_hub.issue_id'] = handle_exception(env['rack.exception'], env)
       end
 
       response

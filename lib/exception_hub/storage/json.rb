@@ -3,20 +3,24 @@ require 'digest/sha2'
 module ExceptionHub
   module Storage
     class Json
-      def initialize(file = IO)
-        self.IO = file
+      def initialize(file = File, dir = Dir)
+        self.File = file
+        self.Dir = dir
         self
       end
 
       def save(id, value)
+        create_dir
         filename(id)
-        self.IO.write(filename, JSON.dump(value))
+        self.File.write(filename, JSON.dump(value))
         filename
       end
 
       def load(id)
         filename(id)
-        f = self.IO.open(filename, "r") {|io| io.readlines.join}
+        create_dir
+        return nil unless self.File.exists?(filename)
+        f = self.File.open(filename, "r") {|io| io.readlines.join}
         JSON.parse(f)
       end
 
@@ -25,10 +29,14 @@ module ExceptionHub
       end
 
       protected
-      attr_accessor :IO
+      attr_accessor :File, :Dir
 
       def filename(id=nil)
         @filename ||= Pathname(ExceptionHub.storage_path.join("#{id}.json"))
+      end
+
+      def create_dir
+        self.Dir.mkdir(ExceptionHub.storage_path) unless self.Dir.exists?(ExceptionHub.storage_path)
       end
     end
   end

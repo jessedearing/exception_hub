@@ -9,6 +9,7 @@ describe ExceptionHub::Validator::FileSystem do
 
     before do
       ExceptionHub.storage = storage_dbl
+      ExceptionHub.storage.stub(:new => storage_dbl)
       ExceptionHub.storage.stub(:find).and_return(digest)
       ExceptionHub.storage.stub(:load)
     end
